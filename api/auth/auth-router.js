@@ -16,15 +16,16 @@ router.post(
   checkUsernameFree,
   checkPasswordLength,
   (req, res, next) => {
-    try {
-      const { username, password } = req.body;
-      const hash = bcrypt.hashSync(password, 8);
-      const newUser = { username, password: hash };
-      const result = User.add(newUser);
-      res.status(201).json(result);
-    } catch (err) {
-      next(err);
-    }
+    const { username, password } = req.body;
+    const hash = bcrypt.hashSync(password, 8);
+    const newUser = { username, password: hash };
+    User.add(newUser)
+      .then((saved) => {
+        res
+          .status(200)
+          .json({ user_id: saved.user_id, username: saved.username });
+      })
+      .catch(next);
   }
 );
 
