@@ -21,9 +21,7 @@ router.post(
       const hash = bcrypt.hashSync(password, 8);
       const newUser = { username, password: hash };
       const result = User.add(newUser);
-      res.status(201).json({
-        message: `nice to have you ${result.username}`,
-      });
+      res.status(201).json(result);
     } catch (err) {
       next(err);
     }
@@ -52,6 +50,10 @@ router.post(
     "message": "Password must be longer than 3 chars"
   }
  */
+
+router.post("/login", checkUsernameExists, (req, res, next) => {
+  // const { username, password } = req.body
+});
 
 /**
   2 [POST] /api/auth/login { "username": "sue", "password": "1234" }

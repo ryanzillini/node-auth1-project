@@ -28,11 +28,13 @@ const User = require("./users-model");
 router.get("/", async (req, res, next) => {
   const users = await User.find();
   res.status(200).json(users);
+  next();
 });
 
 router.get("/:filter", async (req, res, next) => {
   const user = await User.findBy({ useranme: req.body.useranme });
   res.json(user);
+  next();
 });
 
 // Don't forget to add the router to the `exports` object so it can be required in other modules
